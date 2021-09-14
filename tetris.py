@@ -62,11 +62,21 @@ class Board:
 
 
   def place_block(self, block, column):
+    #check if valid block
+    blockCells = block.get_cells()
+    for cellNumber in range(len(blockCells)):
+        cellRow = blockCells[cellNumber][0]
+        cellCol = blockCells[cellNumber][1]
+        print(cellRow, cellCol)
+        if cellRow > self.num_rows - 1 or cellRow < 0 or cellCol > self.num_cols -1 or cellCol < 0:
+            raise Exception("Invalid block")
+    #check if game over
     for i in range(self.num_rows-1, 0, -1): 
         if self.detect_collision(block, (i, column)) == True: #starting from the 3rd row. i is the row, e is the iterator 
             #we didnt collide with another block
             #print(i, column)
             for cellNumber in range(len(block.cells)):   #update the board with the new block placement
+
                 self.rows[block.cells[cellNumber][0]+i][block.cells[cellNumber][1]+column] = True
             break
             
@@ -82,6 +92,7 @@ class Board:
     returns true if block has "collided" with another block and is unable to fall further.
   """
   def detect_collision(self, block, position):
+
     for i in block.cells: #check to make sure if a single block cell is "Collided"
         cell_row = i[0] + position[0] 
         cell_column = i[1] + position[1]
@@ -102,14 +113,13 @@ newBlock = StraightBlock()
 #print(newBoard.detect_collision(newBlock, (18,0)))
 # newBoard.place_block(newBlock, 5)
 
-rotatedBlock = StraightBlock().rotate_left()
+rotatedBlock = StraightBlock()
+rotatedBlock.rotate_left()
 print(rotatedBlock.get_cells())
+newBoard.place_block(rotatedBlock, 0)
 
-newBoard.place_block(newBlock, 0)
-newBoard.place_block(newBlock, 5)
-
+# newBoard.place_block(newBlock, 0)
+# newBoard.place_block(newBlock, 5)
 viewableBoard = newBoard.rows
-
-
 for i in viewableBoard:
   print( ''.join(['x' if j else 'o' for j in i]) )
