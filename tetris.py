@@ -62,6 +62,13 @@ class Board:
 
 
   def place_block(self, block, column):
+    for i in range(self.num_rows-1, 0, -1): 
+        if self.detect_collision(block, (i, column)) == True: #starting from the 3rd row. i is the row, e is the iterator 
+            #we didnt collide with another block
+            #print(i, column)
+            for cellNumber in range(len(block.cells)):   #update the board with the new block placement
+                self.rows[block.cells[cellNumber][0]+i][block.cells[cellNumber][1]+column] = True
+            break
             
 
 
