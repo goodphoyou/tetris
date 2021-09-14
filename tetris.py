@@ -82,6 +82,15 @@ class Board:
     returns true if block has "collided" with another block and is unable to fall further.
   """
   def detect_collision(self, block, position):
+    for i in block.cells: #check to make sure if a single block cell is "Collided"
+        cell_row = i[0] + position[0] 
+        cell_column = i[1] + position[1]
+        block_position = ( cell_row , cell_column ) #cell position on board
+        if block_position[0] == self.num_rows-1: #are we in the first row? if so, check if empty. if empty, return True as we colliding with the floor
+            return not self.rows[block_position[0]][block_position[1]] 
+        elif self.rows[block_position[0]+1][block_position[1]] == True: 
+            #print(block_position, "collision detected")
+            return True
     return False
 
 
