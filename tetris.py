@@ -62,24 +62,10 @@ class Board:
 
 
   def place_block(self, block, column):
+            
 
-    highest_row_blocked = 0
-    for i in range(self.num_rows):
-      if self.rows[i][column] == True:
-        highest_row_blocked = i
-        break
-    print("highest blocked row", highest_row_blocked)
 
-    for i in range(highest_row_blocked - 1, self.num_rows):
-      if self.detect_collision( block, (i, column)):
-        print("collided at", i, column)
-        for c in block.cells:
-          self.rows[c[0] + i][c[1] + column] = True
-        print
-        break
-      else:
-        pass
-
+    # check the bottom of the placement and find the first row where collision is true
 
 
     
@@ -107,18 +93,23 @@ class Board:
           return True
     return False
 
+
 newBoard = Board(20, 10)
+for i in range(4):
+    newBoard.rows[19][i] = True
+
 newBlock = StraightBlock()
-newBoard.place_block(newBlock, 5)
-print(newBlock.get_cells())
+#print(newBoard.detect_collision(newBlock, (18,0)))
+# newBoard.place_block(newBlock, 5)
 
-newBlock = StraightBlock().rotate_left()
-print(newBlock.get_cells())
-newBoard.place_block(newBlock, 5)
-newBoard.place_block(newBlock, 6)
+rotatedBlock = StraightBlock().rotate_left()
+print(rotatedBlock.get_cells())
 
+newBoard.place_block(newBlock, 0)
+newBoard.place_block(newBlock, 5)
 
 viewableBoard = newBoard.rows
+
 
 for i in viewableBoard:
   print( ''.join(['x' if j else 'o' for j in i]) )
